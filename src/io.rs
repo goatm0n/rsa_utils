@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use num_bigint::BigUint;
 use rsa_rs::{
     keys::keypair::KeyPair,
     encryption::{
@@ -33,7 +34,7 @@ pub fn write_key_pair_csv(path: PathBuf, key_pair: &KeyPair) {
     std::fs::write(path, contents).expect("error writing key_pair to file");
 }
 
-pub fn write_vec_u128(path: PathBuf, data: Vec<u128>) {
+pub fn write_vec_biguint(path: PathBuf, data: Vec<BigUint>) {
     let mut contents = String::new();
     for num in data {
         let num_string = num.to_string();
@@ -73,23 +74,23 @@ pub fn parse_key_file(path: PathBuf) -> KeyPair {
             }
         }
     }
-    let e_int:u128 = e.parse::<u128>().unwrap(); 
-    let d_int:u128 = d.parse().unwrap();
-    let n_int:u128 = n.parse().unwrap(); 
+    let e_int = e.parse::<BigUint>().unwrap();
+    let d_int = d.parse::<BigUint>().unwrap();
+    let n_int = n.parse::<BigUint>().unwrap();
     return KeyPair::from(e_int, d_int, n_int);
 }
 
 
-pub fn read_vec_u128(path: &PathBuf) -> Vec<u128> {
+pub fn read_vec_biguint(path: &PathBuf) -> Vec<BigUint> {
     let file_content = std::fs::read_to_string(path).expect("could not read file");
     if file_content.len() == 0 {panic!("empty-file: nothing to decrypt")}
     let mut num_string = String::new();
-    let mut num_vec:Vec<u128> = Vec::new();
+    let mut num_vec:Vec<BigUint> = Vec::new();
     for c in file_content.chars() {
         if c!= '\t' {
             num_string.push(c);
         } else {
-            let num:u128 = num_string.parse().unwrap();
+            let num = num_string.parse::<BigUint>().unwrap();
             num_vec.push(num);
             num_string.clear();
         }
@@ -100,15 +101,15 @@ pub fn read_vec_u128(path: &PathBuf) -> Vec<u128> {
 pub fn encrypt_file(file_path: PathBuf, key_path: PathBuf) {
     let file_content = std::fs::read_to_string(&file_path).expect("could not read file");
     if file_content.len() == 0 {panic!("empty-file: nothing to encrypt")}
-    let key_pair = KeyPair::generate_key_pair(65537);
+    let key_pair = KeyPair::generate_key_pair(BigUint::from(65537u32));
     write_key_pair_csv(key_path, &key_pair);
     let public_key = key_pair.public_key();
     let enc_vec = encrypt_string(&file_content, public_key);
-    write_vec_u128(file_path, enc_vec); 
+    write_vec_biguint(file_path, enc_vec); 
 }
 
 pub fn decrypt_file(file_path: PathBuf, key_path: PathBuf) {
-    let encrypted_utf8 = read_vec_u128(&file_path);
+    let encrypted_utf8 = read_vec_biguint(&file_path);
     let key_pair = parse_key_file(key_path);
     let decrypted_string = decrypt_string(&encrypted_utf8, key_pair.private_key());
     std::fs::write(file_path, decrypted_string).expect("error writing decrypted_string to file");

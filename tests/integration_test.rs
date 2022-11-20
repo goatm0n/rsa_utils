@@ -1,3 +1,5 @@
+use num_bigint::BigUint;
+
 use rsa_utils::io::{
     encrypt_file,
     decrypt_file,
@@ -21,7 +23,7 @@ fn test_encrypt_decrypt_file() {
     let file_path_4 = PathBuf::from(file_path_str);
     let file_path_5 = PathBuf::from(file_path_str);
     
-    let key_pair = KeyPair::generate_key_pair(65537);
+    let key_pair = KeyPair::generate_key_pair(BigUint::from(65537u32));
     write_key_pair_csv(key_path_1, &key_pair);
     
     let content = "Heres a message to encrypt/decrypt";
