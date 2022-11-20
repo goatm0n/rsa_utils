@@ -10,8 +10,8 @@ use rsa_rs::keys::keypair::KeyPair;
 
 #[test]
 fn test_encrypt_decrypt_file() {
-    let file_path_str = "enc_file.txt";
-    let key_path_str = "key_path.txt";
+    let file_path_str = "testfile.txt";
+    let key_path_str = "testkey.txt";
 
     let key_path_1 = PathBuf::from(key_path_str);
     let key_path_2 = PathBuf::from(key_path_str);
