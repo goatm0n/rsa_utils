@@ -73,7 +73,7 @@ pub fn parse_key_file(path: PathBuf) -> KeyPair {
             }
         }
     }
-    let e_int:u128 = e.parse().unwrap(); 
+    let e_int:u128 = e.parse::<u128>().unwrap(); 
     let d_int:u128 = d.parse().unwrap();
     let n_int:u128 = n.parse().unwrap(); 
     return KeyPair::from(e_int, d_int, n_int);
