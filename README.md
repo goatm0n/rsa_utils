@@ -1,2 +1,3 @@
-v0.2.0
-added support for bigints per rsa_rs update
+# rsa_utils
+
+A Rust library containing utility functions for the purpose of encrypting / decrypting files and reading / writing keyfiles. 
