@@ -1,5 +1,9 @@
 # rsa_utils
 
+[![crates.io][crate-image]][crate-link]
+[![Documentation][doc-image]][doc-link]
+[![dependency status][deps-image]][deps-link]
+
 A Rust library containing utility functions for the purpose of encrypting / decrypting files and reading / writing keyfiles. 
 
 ## Example
@@ -21,3 +25,12 @@ encrypt_file(file_path, key_path);
 decrypt_file(file_path, key_path);
 
 ```
+
+[//]: # (badges)
+
+[crate-image]: https://buildstats.info/crate/rsa_utils
+[crate-link]: https://crates.io/crates/rsa_utils
+[doc-image]: https://docs.rs/rsa_utils/badge.svg
+[doc-link]: https://docs.rs/rsa_utils
+[deps-image]: https://deps.rs/repo/github/goatm0n/rsa_utils/status.svg
+[deps-link]: https://deps.rs/repo/github/goatm0n/rsa_utils
